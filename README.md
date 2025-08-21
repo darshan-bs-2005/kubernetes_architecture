@@ -1,13 +1,7 @@
 # kubernetes_architecture
 kubernetes architecture in detail
 
-he low-level software (like Docker, containerd, CRI-O) that actually runs the containers.
-
-In Docker, we have a default bridge network, which is mandatory for container communication. Unlike that, in Kubernetes we have Kube-proxy:
-	•	Provides networking to every Pod,
-	•	Assigns IP addresses,
-	•	Offers load balancing capabilitLet me explain with Docker. Docker is a container platform where, without a container runtime, it doesn’t run (like Docker shim). It only has containers where applications run, but Docker alone doesn’t provide enterprise-level features.
-
+Let me explain with Docker. Docker is a container platform where, without a container runtime, it doesn’t run (like Docker shim). It only has containers where applications run, but Docker alone doesn’t provide enterprise-level features.
 Kubernetes came into the picture to support enterprise needs. It has advanced concepts like auto-healing, auto-scaling, and clustering. Within Kubernetes, we can create a master node and inside that, we create worker nodes. This forms the control plane and data plane.
 
 The request from the user first goes to the master node and then to the worker node.
@@ -15,12 +9,19 @@ In Kubernetes, the smallest unit of deployment is a Pod. A Pod is like a wrapper
 
 Like in Docker, where containers are deployed, in Kubernetes Pods are deployed inside worker nodes. But here, the main responsible for running your Pods is not Docker Engine/shim—it’s handled by Kubelet + Container Runtime on each worker node.
 	•	Kubelet: Ensures that containers described in your Pod spec are actually running in the worker node.
-	•	Container Runtime: Ties.
+	•	Container Runtime: The low-level software (like Docker, containerd, CRI-O) that actually runs the containers.
+
+In Docker, we have a default bridge network, which is mandatory for container communication. Unlike that, in Kubernetes we have Kube-proxy:
+	•	Provides networking to every Pod,
+	•	Assigns IP addresses,
+	•	Offers load balancing capabilities.
 
 Because of these, Kubernetes provides true enterprise-level support with auto-healing and auto-scaling.
 
 For example, if you deploy an application using a YAML file, it will include all the necessary details: Pods, replicas, networking, volumes, etc.
 If you specify two replicas of a Pod, Kubernetes automatically balances the traffic: some users are sent to Pod 1, and the rest to Pod 2. This traffic distribution is managed by Kube-proxy.
+
+
 
 In the master node, there are:
 	•	API server
